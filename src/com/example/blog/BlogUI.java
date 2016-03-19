@@ -11,10 +11,8 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
 @Theme("blog")
@@ -31,24 +29,15 @@ public class BlogUI extends UI {
 		final AbsoluteLayout layout = new AbsoluteLayout();
 		// layout.setMargin(true);
 		setContent(layout);
-		TextArea newPostTextArea = new TextArea();
+		Panel newPostTextArea = new Panel("Title");
+		newPostTextArea.setContent(new Label("Test label"));
 		newPostTextArea.setWidth("50%");
 		Button savePostButton = new Button("Add new post");
 		savePostButton.addClickListener(new Button.ClickListener() {
 
 			public void buttonClick(ClickEvent event) {
-				Window subWindow = new Window("New post");
-				VerticalLayout subContent = new VerticalLayout();
-				subContent.setMargin(true);
-				subWindow.setContent(subContent);
-				subContent.addComponent(new Label("Meatball sub"));
-				subContent.addComponent(new Button("Awlright"));
-				subWindow.center();
-				// posts.add(new Post(newPostTextArea.getValue()));
-				// for (Post post : posts) {
-				// System.out.print(post.getPostContent());
-				// }
-				addWindow(subWindow);
+				NewPostForm newPostForm = new NewPostForm();
+				addWindow(newPostForm.getWindow());
 			}
 		});
 		layout.addComponent(newPostTextArea, "left: 25%; top: 40px;");
