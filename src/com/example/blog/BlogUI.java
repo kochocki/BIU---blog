@@ -6,6 +6,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -18,18 +19,15 @@ public class BlogUI extends UI {
 	@VaadinServletConfiguration(productionMode = false, ui = BlogUI.class)
 	public static class Servlet extends VaadinServlet {}
 
-	private VerticalLayout layout = new VerticalLayout();
+	private VerticalLayout	postsLayout	= new VerticalLayout();
+	private AbsoluteLayout	mainLayout	= new AbsoluteLayout();
 
 	@Override
 	protected void init(VaadinRequest request) {
-		// TextField postTitleTextField = new TextField();
-		// TextArea postContentTextArea = new TextArea();
 		Button savePostButton = new Button("Add new post");
-		// layout.addComponent(postTitleTextField);
-		// layout.addComponent(postContentTextArea);
-		layout.addComponent(savePostButton);
-		setContent(layout);
-		//
+		mainLayout.addComponent(savePostButton, "right: 0px; top: 0px;");
+		setContent(mainLayout);
+		mainLayout.addComponent(postsLayout, "left: 25%; top: 30px");
 		savePostButton.addClickListener(event -> {
 			NewPostWindow w = new NewPostWindow(this);
 			BlogUI.this.addWindow(w);
@@ -40,6 +38,6 @@ public class BlogUI extends UI {
 		PostComponent postComp = new PostComponent();
 		ObjectProperty<Post> prop = new ObjectProperty<Post>(post);
 		postComp.setPropertyDataSource(prop);
-		layout.addComponent(postComp);
+		postsLayout.addComponent(postComp);
 	}
 }

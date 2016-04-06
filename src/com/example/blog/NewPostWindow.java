@@ -2,23 +2,17 @@ package com.example.blog;
 
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class NewPostWindow extends Window {
 
-	private static final long serialVersionUID = 532448796258115637L;
-
-	public interface INewPostWindow {
-
-		public Post getPost();
-	}
-
-	private TextField	tfPostTitle		= new TextField();
-	private TextArea	taPostContent	= new TextArea();
-	private Button		sendButton		= new Button("Send");
+	private static final long	serialVersionUID	= 532448796258115637L;
+	private TextField					tfPostTitle				= new TextField();
+	private RichTextArea			taPostContent			= new RichTextArea();
+	private Button						sendButton				= new Button("Send");
 
 	public NewPostWindow(BlogUI blogUI) {
 		super("New post");

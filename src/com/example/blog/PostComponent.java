@@ -6,15 +6,16 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+//https://vaadin.com/wiki/-/wiki/Main/Creating+a+custom+field+for+editing+the+address+of+a+person
 public class PostComponent extends CustomField<Post> {
 
 	private static final long	serialVersionUID	= -5788741510670182641L;
 	private TextField					tfPostTitle				= new TextField();
-	private TextArea					taPostContent			= new TextArea();
+	private RichTextArea			taPostContent			= new RichTextArea();
 	private FieldGroup				fieldGroup				= new BeanFieldGroup<Post>(Post.class);
 
 	@Override
@@ -23,9 +24,9 @@ public class PostComponent extends CustomField<Post> {
 		layout.setMargin(true);
 		layout.addComponent(tfPostTitle);
 		layout.addComponent(taPostContent);
-		//
-		tfPostTitle.setEnabled(false);
-		taPostContent.setReadOnly(false);
+		taPostContent.setHeight("200px");
+		tfPostTitle.setWidth(50, Unit.PERCENTAGE);
+		taPostContent.setWidth(50, Unit.PERCENTAGE);
 		this.setReadOnly(false);
 		// binding
 		fieldGroup.bind(tfPostTitle, "title");
@@ -36,6 +37,8 @@ public class PostComponent extends CustomField<Post> {
 		catch (CommitException e) {
 			e.printStackTrace();
 		}
+		tfPostTitle.setReadOnly(true);
+		taPostContent.setReadOnly(true);
 		return layout;
 	}
 
