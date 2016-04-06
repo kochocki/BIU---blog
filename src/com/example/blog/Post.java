@@ -1,13 +1,20 @@
 package com.example.blog;
 
-public class Post {
+import java.io.Serializable;
+import javax.validation.constraints.Size;
 
-	Post(String postContent) {
+public class Post implements Serializable {
+
+	private static final long	serialVersionUID	= 3411852205079204243L;
+	@Size(min = 5, max = 30)
+	private String						title;
+	@Size(min = 10, max = 1000)
+	private String						content;
+
+	public Post(String title, String postContent) {
+		setTitle(title);
 		setContent(postContent);
 	}
-
-	private String	content;
-	private String	title;
 
 	public String getContent() {
 		return this.content;
