@@ -1,6 +1,8 @@
 package com.example.blog;
 
 import javax.servlet.annotation.WebServlet;
+import com.example.blog.Broadcaster.BroadcastListener;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.util.ObjectProperty;
@@ -13,7 +15,8 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 @Theme("blog")
-public class BlogUI extends UI {
+@Push
+public class BlogUI extends UI implements BroadcastListener {
 
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = BlogUI.class)
@@ -32,6 +35,13 @@ public class BlogUI extends UI {
 			NewPostWindow w = new NewPostWindow(this);
 			BlogUI.this.addWindow(w);
 		});
+		Broadcaster.register(this);
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		Broadcaster.unregister(this);
+		super.finalize();
 	}
 
 	public void addNewPost(Post post) {
@@ -39,5 +49,10 @@ public class BlogUI extends UI {
 		ObjectProperty<Post> prop = new ObjectProperty<Post>(post);
 		postComp.setPropertyDataSource(prop);
 		postsLayout.addComponent(postComp);
+	}
+
+	@Override
+	public void receiveBroadcast(Post message) {
+		addNewPost(message);
 	}
 }

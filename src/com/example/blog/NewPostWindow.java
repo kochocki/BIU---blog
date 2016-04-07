@@ -28,7 +28,7 @@ public class NewPostWindow extends Window {
 		subContent.addComponent(sendButton);
 		sendButton.addClickListener(event -> {
 			if (validate()) {
-				blogUI.addNewPost(new Post(tfPostTitle.getValue(), taPostContent.getValue()));
+				Broadcaster.broadcast(new Post(tfPostTitle.getValue(), taPostContent.getValue()));
 				close();
 			}
 		});
