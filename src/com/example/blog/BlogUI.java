@@ -22,15 +22,22 @@ public class BlogUI extends UI implements BroadcastListener {
 	@VaadinServletConfiguration(productionMode = false, ui = BlogUI.class)
 	public static class Servlet extends VaadinServlet {}
 
-	private VerticalLayout	postsLayout	= new VerticalLayout();
-	private AbsoluteLayout	mainLayout	= new AbsoluteLayout();
+	private VerticalLayout	postsLayout			= new VerticalLayout();
+	private AbsoluteLayout	mainLayout			= new AbsoluteLayout();
+	public Button						loginButton			= new Button("Log in");
+	public Button						savePostButton	= new Button("Add new post");
 
 	@Override
 	protected void init(VaadinRequest request) {
-		Button savePostButton = new Button("Add new post");
+		savePostButton.setEnabled(false);
 		mainLayout.addComponent(savePostButton, "right: 0px; top: 0px;");
+		mainLayout.addComponent(loginButton);
 		setContent(mainLayout);
 		mainLayout.addComponent(postsLayout, "left: 25%; top: 30px");
+		loginButton.addClickListener(event -> {
+			LogInWindow w = new LogInWindow(this);
+			BlogUI.this.addWindow(w);
+		});
 		savePostButton.addClickListener(event -> {
 			NewPostWindow w = new NewPostWindow(this);
 			BlogUI.this.addWindow(w);
