@@ -29,6 +29,12 @@ public class NewPostWindow extends Window {
 		sendButton.addClickListener(event -> {
 			if (validate()) {
 				Broadcaster.broadcast(new Post(tfPostTitle.getValue(), taPostContent.getValue()));
+				try {
+					PostsBase.add(new Post(tfPostTitle.getValue(), taPostContent.getValue()));
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
 				close();
 			}
 		});

@@ -24,7 +24,7 @@ public class PostComponent extends CustomField<Post> {
 		layout.setMargin(true);
 		layout.addComponent(tfPostTitle);
 		layout.addComponent(taPostContent);
-		taPostContent.setHeight("200px");
+		taPostContent.setHeight("75px");
 		tfPostTitle.setWidth(50, Unit.PERCENTAGE);
 		taPostContent.setWidth(50, Unit.PERCENTAGE);
 		this.setReadOnly(false);

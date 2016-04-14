@@ -1,5 +1,8 @@
 package com.example.blog;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import com.example.blog.Broadcaster.BroadcastListener;
 import com.vaadin.annotations.Push;
@@ -29,11 +32,13 @@ public class BlogUI extends UI implements BroadcastListener {
 
 	@Override
 	protected void init(VaadinRequest request) {
+		Broadcaster.register(this);
 		savePostButton.setEnabled(false);
 		mainLayout.addComponent(savePostButton, "right: 0px; top: 0px;");
 		mainLayout.addComponent(loginButton);
 		setContent(mainLayout);
 		mainLayout.addComponent(postsLayout, "left: 25%; top: 30px");
+		getPosts();
 		loginButton.addClickListener(event -> {
 			LogInWindow w = new LogInWindow(this);
 			BlogUI.this.addWindow(w);
@@ -42,7 +47,6 @@ public class BlogUI extends UI implements BroadcastListener {
 			NewPostWindow w = new NewPostWindow(this);
 			BlogUI.this.addWindow(w);
 		});
-		Broadcaster.register(this);
 	}
 
 	@Override
@@ -61,5 +65,18 @@ public class BlogUI extends UI implements BroadcastListener {
 	@Override
 	public void receiveBroadcast(Post message) {
 		addNewPost(message);
+	}
+
+	private void getPosts() {
+		try (BufferedReader br = new BufferedReader(new FileReader("D:\\posts.csv"))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] lineParts = line.split(",");
+				addNewPost(new Post(lineParts[0], lineParts[1]));
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
